@@ -10,6 +10,11 @@ import {
   CHANGE_AMOUNT,
   FILTER_PRICE,
   REMOVE_FROM_CART,
+  GET_ADDRESSES,
+  CREATE_ADDRESS,
+  UPDATE_ADDRESS,
+  DELETE_ADDRESS,
+  UPDATE_PRODUCT,
 } from "./../actions/actions";
 
 const initialState = {
@@ -52,31 +57,24 @@ const rootReducer = (state = initialState, action) => {
         ),
       };
     case ADD_TO_CART:
-      const newItem = state.cart.find((e) => e.id === action.payload.id);
-      console.log(newItem);
-      return newItem
-        ? { ...state, cart: [...state.cart] }
-        : { ...state, cart: [...state.cart, action.payload] };
-    case CHANGE_AMOUNT:
-      const itemInCart = state.cart.find((e) => {
-        return e.name === action.payload.name;
-      });
-      return itemInCart
-        ? {
-            ...state,
-            cart: [
-              ...state.cart.map((e) => {
-                return e.name === itemInCart.name
-                  ? { ...e, amount: action.payload.am }
-                  : e;
-              }),
-            ],
-          }
-        : {
-            ...state,
-            cart: [...state.cart],
-          };
-
+      const alreadyIn = state.cart.find(
+        (prod) => prod.id === action.payload.id
+      );
+      if (alreadyIn) {
+        return {
+          ...state,
+          cart: state.cart.map((it) =>
+            it.id === alreadyIn.id
+              ? { ...it, amount: it.amount + action.payload.amount }
+              : it
+          ),
+        };
+      } else {
+        return {
+          ...state,
+          cart: [...state.cart, action.payload],
+        };
+      }
     case REMOVE_FROM_CART:
       return {
         ...state,

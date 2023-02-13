@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import CreateAdress from "../../components/CreateAdress/CreateAdress";
+import { useSelector } from "react-redux";
+import { Button } from "./Cart.styles";
 
 const PayButton = ({ productItem }) => {
   const user = useSelector((state) => state.user.userLogged);
@@ -20,12 +20,34 @@ const PayButton = ({ productItem }) => {
         });
     };
 
-    return (
-      <>
-        <CreateAdress />
-        <button onClick={() => handleCheckout()}>Check Out</button>
-      </>
-    );
+    if (user.id) {
+      const handleCheckout = async () => {
+        const response = await axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/stripe/create-checkout-session/`,
+            {
+              productItem,
+              userId: user.id,
+            }
+          )
+          .then((res) => {
+            if (res.data.url) {
+              window.location.href = res.data.url;
+            }
+          });
+      };
+
+      return (
+        <>
+          {/* <form action={`${process.env.REACT_APP_API_URL}/stripe/create-checkout-session`} method="POST">
+                    <input type="hidden" value={productItem} /> */}
+          <Button onClick={handleCheckout}>Check Out</Button>
+          {/* </form> */}
+        </>
+      );
+    } else {
+      return;
+    }
   }
 };
 export default PayButton;

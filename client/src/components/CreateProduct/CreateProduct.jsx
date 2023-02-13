@@ -18,6 +18,9 @@ import {
   Selector,
   BrandContainer,
   SubmitButton,
+  ImageContainer,
+  ImageInput,
+  ImagePreview,
 } from "./CreateProduct.styles";
 
 export default function CreateProduct() {
@@ -42,8 +45,6 @@ export default function CreateProduct() {
     category: "",
     subcategory: "",
   });
-
-  console.log(info);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -126,6 +127,15 @@ export default function CreateProduct() {
     (sub) => sub.category_id === info.category
   );
 
+  const clearImg = () => {
+    setInfo({
+      ...info,
+      img: "",
+    });
+  };
+
+  console.log(info);
+
   return (
     <FormContainer>
       <ColumnFieldContainer>
@@ -140,12 +150,45 @@ export default function CreateProduct() {
           value={info.name}
           onChange={(e) => handleChange(e)}
         />
-        <TextInput
-          type="file"
-          name="img"
-          placeholder="Imagen"
-          onChange={(e) => imageUpload(e.target.files)}
-        ></TextInput>
+        <ImageContainer>
+          <ImageInput
+            type="file"
+            name="img"
+            placeholder="Imagen"
+            onChange={(e) => imageUpload(e.target.files)}
+          ></ImageInput>
+          <div
+            style={{
+              width: "100px",
+              height: "100px",
+              border: "solid 1px white",
+              borderRadius: "5px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ImagePreview src={info.img} />
+            <button
+              style={{
+                width: "1.2rem",
+                height: "1.2rem",
+                color: "white",
+                backgroundColor: "#52373C",
+                border: "none",
+                borderRadius: "2px",
+                cursor: "pointer",
+                textAlign: "center",
+                transform: "translate(2.4rem, -2.4rem)",
+                zIndex: "100",
+                position: "absolute",
+              }}
+              onClick={clearImg}
+            >
+              X
+            </button>
+          </div>
+        </ImageContainer>
         <TextInput
           type="number"
           name="price"

@@ -35,9 +35,9 @@ const RowCart = ({ img, name, price, has_discount, amount }) => {
         value="name"
         style={{ display: "flex", flexDirection: "column" }}
       >
+        <Image src={img} />
         <DeleteIcon onClick={() => dispatch(removeFromCart(name))} />
         {name}
-        <Image src={img} />
       </TableCell>
       <TableCell align="right" value="price">
         {accounting.formatMoney(price)}

@@ -54,7 +54,6 @@ function App() {
           path="/add-payment-method"
           element={<Skeleton view={<AddPaymentMethod />} />}
         />
-        <Route path="/createproduct" element={<CreateProduct />} />
         <Route
           path="/add-address"
           element={<Skeleton view={<AddAddres />} />}
@@ -63,10 +62,6 @@ function App() {
 
         {/* ---------Rutas Admin ------------------- */}
 
-        <Route
-          path="/createproduct"
-          element={<AdminDashboard props={<CreateProduct />} />}
-        />
         {user?.is_admin ? (
           <>
             <Route
