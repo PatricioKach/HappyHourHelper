@@ -8,7 +8,7 @@ import Wine from "../../assets/winee.png";
 import "./Cards.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/actions";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -64,11 +64,9 @@ const Card = ({ product }) => {
 
   const handleClick = (e) => {
     if (e === "rest") {
-      dispatch(changeAmount({ am: amount - 1, name }));
       setAmount(amount - 1);
     } else {
       setAmount(amount + 1);
-      dispatch(changeAmount({ am: amount + 1, name }));
     }
   };
 
